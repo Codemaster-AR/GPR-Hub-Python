@@ -1,8 +1,3 @@
-That list of separate `pip3 install` commands is generally **not necessary** for standard Python libraries like `os`, `sys`, `time`, `json`, `textwrap`, `urllib`, and `getpass`. These are part of the **Python Standard Library** and are available automatically when Python is installed.
-
-I have corrected the instructions to remove those redundant steps and added the required installation steps for any actual **third-party libraries** that the program might use (represented here by a `requirements.txt` file, which is the standard practice).
-
-Here are the complete and corrected instructions:
 
 ## 🛠️ Complete & Corrected README: GPR\_Reader\_Identify\_Python\_Beta
 
