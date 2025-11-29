@@ -35,6 +35,12 @@ A **Python 3** based Command Line Interface (CLI) that utilizes the power of **A
     ```bash
     python3 --version
     ```
+    You should see a output such as '''Python 3.14.0'''
+    ```bash
+    pip3 --version
+    ```
+    If the output does not have any errors, that means that your installation was successful.
+    
 
 -----
 
