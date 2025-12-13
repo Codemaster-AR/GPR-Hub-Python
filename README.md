@@ -116,13 +116,36 @@ Most Linux distributions have Python 3, but you often need to install `pip`.
     pip3 install -r requirements.txt
     ```
 
-    > **Note:** You do **NOT** need to install `os`, `sys`, `time`, `json`, `textwrap`, `urllib`, or `getpass`, as they are included with Python.
+    > **Note:** Install the following libraries
+
 
 4.  **Run the CLI:**
     Execute the main script:
 
     ```bash
+   
     python3 GPR_Reader_Python.py
+
+    ----
+    # General Python Libraries
+pip3 install os
+pip3 install sys
+pip3 install time
+pip3 install json
+pip3 install textwrap
+pip3 install urllib
+pip3 install urllib.request
+pip3 install urllib.error
+pip3 install getpass
+
+# Data Science/Plotting Libraries
+pip3 install matplotlib
+pip3 install numpy
+
+# Google GenAI Libraries
+pip3 install -q -U google-genai
+pip3 install google
+pip3 install genai
     ```
 
 -----
