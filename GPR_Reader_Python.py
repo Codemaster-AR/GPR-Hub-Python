@@ -7,6 +7,7 @@ import urllib.request
 import urllib.error
 from getpass import getpass
 
+
 # --- Configuration ---
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 GROQ_MODEL = "llama-3.3-70b-versatile"
@@ -14,6 +15,101 @@ GROQ_MODEL = "llama-3.3-70b-versatile"
 # Place your Gemini API key here or set as environment variable GEMINI_API_KEY
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyAtWS9_d_Li40IGVYoT7tQgSiPPiXRv6iU")
 GEMINI_MODEL = "gemini-2.5-flash"  # You can change this to your preferred Gemini model
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+def process_gpr_image(file_path):
+    """
+    Reads and processes the image data from the given path.
+    The image is converted to a 2D intensity array (grayscale) suitable 
+    for GPR analysis.
+    """
+    if not os.path.exists(file_path):
+        print(f"❌ Error: File not found at path: {file_path}")
+        return None
+        
+    try:
+        # 1. Read the image into a NumPy array
+        img_data = plt.imread(file_path)
+        
+        print(f"✅ Image loaded successfully from: {os.path.basename(file_path)}")
+        print(f"Shape of the original data: {img_data.shape}")
+        
+        # 2. Pre-processing: Convert to Grayscale (Intensity)
+        
+        # Drop the alpha channel if present (4 channels -> 3 channels)
+        if img_data.ndim == 3 and img_data.shape[2] == 4:
+            img_data = img_data[:, :, :3]
+            
+        # Convert to Grayscale if it's a color image (3 channels -> 1 channel)
+        if img_data.ndim == 3:
+            # Standard luminance formula for grayscale conversion
+            # Resulting array is 2D (Depth vs. Distance)
+            gray_data = np.dot(img_data[...,:3], [0.2989, 0.5870, 0.1140])
+            print("Converted image to Grayscale (2D array) for processing.")
+            return gray_data
+        
+        # If it was already 1 channel (grayscale), return it directly
+        return img_data
+
+    except Exception as e:
+        print(f"❌ An error occurred while reading the file: {e}")
+        return None
+
+# --- Main Script Loop ---
+
+def gpr_reader_cli_run():
+    """Main command-line interface for the GPR reader."""
+    gpr_array = None
+    
+    print("Welcome to the GPR Image Reader.")
+    print("Type 'upload <file_path>' to load an image, or 'exit' to quit.")
+    print("Make sure that the name of the file does not contain spaces.")
+    print("\n💡 **Examples:**")
+    print("   Windows: upload C:\\Data\\profile.png")
+    print("   Linux/macOS: upload /home/user/data/profile.png")
+    
+    while True:
+        user_input = input("\n> ").strip()
+        
+        # 1. Handle the 'exit' command
+        if user_input.lower() == 'exit':
+            print("Exiting GPR Reader. Goodbye!")
+            break
+            
+        # 2. Handle the 'upload <file_path>' command
+        if user_input.lower().startswith('upload '):
+            # Split the input into the command and the path
+            parts = user_input.split(maxsplit=1)
+            
+            if len(parts) < 2:
+                print("⚠️ Please provide the full path after 'upload'.")
+                continue
+            
+            # Remove any extra quotes the user might have included
+            file_path = parts[1].strip().replace('"', '').replace("'", '')
+            
+            # Call the processing function
+            gpr_array = process_gpr_image(file_path)
+            
+            if gpr_array is not None:
+                print("\n**Image successfully loaded and processed.**")
+                
+                # Show the result for confirmation
+                plt.figure()
+                plt.imshow(gpr_array, cmap='gray', aspect='auto')
+                plt.title("Loaded GPR Profile (Intensity)")
+                plt.xlabel("Distance Axis (Pixels)")
+                plt.ylabel("Depth/Time Axis (Pixels)")
+                plt.colorbar(label='Amplitude/Intensity')
+                plt.show()
+                
+
+
+
+
 
 def print_ascii_art():
     print(r"""
@@ -33,6 +129,16 @@ __________                        .___
 
 GPR Reader Python edition
 """)
+    print ("If you face any issues, seek help from the github repository (https://github.com/Codemaster-AR/GPR_Reader_Identify_Python_Beta). If that does not work, you can contact codemaster.ar@gmail.com")
+    print ("Also, if you face any issues regarding the imports, you can re-run this CLI and type help after the ascii title art is shown to get help regarding the issues you are facing.")
+    print ("----------------------------------------------------------------------------------------------------------------")
+    print ("You must grant permission for this script to access files on your system for it to work properly. This python script is completely safe and does not store or share any of your data. It only processes the files locally on your system, but DO NOT share sensitive files with this script as it is sent to Gemini using API keys. Only share GPR images. Make sure that this file was downloaded from the github repository (link above) for security purposes.")
+    print ("Granting per§mission commands:")
+    print(" Windows: Right-click this file, select Properties, go to the Security tab, and ensure your user account or the \"Users\" group has a checkmark in the Read permission box. Click Apply and OK to save changes.")
+    print(" Linux/macOS: Open a terminal and run the following commands:")
+    print("1. locate to the file: cd /path/to/directory/containing/GPR_Reader_Python.py")
+    print("2. chmod +r GPR_Reader_Python.py")
+
 
 def loading_bar(total_seconds=1):
     bar_length = 40
@@ -251,7 +357,7 @@ def main():
             print("\nExiting GPR Reader. Goodbye!")
             sys.exit(0)
 
-        if user_input_terminal in ["help", "commands"]:
+        if user_input_terminal in ["commands"]:
             print("\nAvailable Commands:")
             print("read_gpr       - Read and process GPR files.")
             print("analyze_data   - Analyze the processed data.")
@@ -266,7 +372,7 @@ def main():
 
         elif user_input_terminal == "chat groq":
             start_chat_groq()
-
+        
         elif user_input_terminal == "chat gemini":
             start_chat_gemini()
 
@@ -274,10 +380,37 @@ def main():
             print("Exiting GPR Reader. Goodbye!")
             sys.exit(0)
 
-        elif user_input_terminal in ["read_gpr", "analyze_data", "export_results"]:
+        elif user_input_terminal in ["analyze_data", "export_results"]:
             print(f"'{user_input_terminal}' is not implemented yet in this Python script.")
         elif user_input_terminal == "version":
             print("GPR Reader Python edition - Version 1.0.0")
+        elif user_input_terminal == "help":
+            print("Python edition help:")
+            print ("Ensure that you have python3 installed on your system.")
+            print("Any errors such as 'module not found' indicate missing dependencies or typos. Make sure that you have python3 installed along with required libraries. You can install the following libraries using '!pip3 install <library_name>'")
+            print("Check the GitHub repository for detailed instructions for installing python3")
+            print("The required libraries are already a part of default python3 installation, but in case you face any issues, you can install or check their installation status manually.")
+            print("Run the following commands in your terminal ")
+            print("1. pip3 install os")
+            print("2. pip3 install sys")
+            print("3. pip3 install time")
+            print("4. pip3 install json")
+            print("5. pip3 install textwrap")
+            print("6. pip3 install urllib")
+            print("7. pip3 install urllib.request")
+            print("8. pip3 install urllib.error")
+            print("9. pip3 install getpass")
+            print("10. pip3 install matplotlib")
+            print("11. pip3 install numpy")
+            print("12. pip3 install -q -U google-genai")
+            print("13. pip3 install google")
+            print ("14. pip3 install genai")
+            print("If you face any other issues, seek help from the github repository (https://github.com/Codemaster-AR/GPR_Reader_Identify_Python_Beta/blob/main/README.md), you can also contact codemaster.ar@gmail.com for further assistance.")
+        elif user_input_terminal == "read_gpr":
+            gpr_reader_cli_run()
+        elif user_input_terminal == "debug":
+            import debuggererrortest as debuggererroring
+            debuggererroring
 
         else:
             print("Invalid input. Please enter 'commands' to see available commands.")
@@ -287,5 +420,9 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-    
+# Command: python3 GPR_Reader_Python.py
+# Note: Ensure you have Python 3.x installed along with required, external libraries: matplotlib, numpy
+# import googlegenerativeai
+# pip install googlegenerativeai
+# !pip3 install googlegenerativeai
+                
