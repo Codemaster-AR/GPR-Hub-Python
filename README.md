@@ -1,7 +1,7 @@
 
 -----
 
-# GPR\_Reader\_Identify\_Python\_Beta
+# GPR\_Hub
 
 A **Python 3** based Command Line Interface (CLI) that utilizes the power of **AI** to answer user queries and help analyze **Ground Penetrating Radar (GPR) images**.
 
