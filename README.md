@@ -8,3 +8,6 @@
 
 ### Code:
 [https://github.com/Codemaster-AR/GPR_Hub/releases/tag/v3.0.0](https://github.com/Codemaster-AR/GPR_Hub/releases/tag/v3.0.0)
+
+### Credits:
+[https://geotechru.com/archaeology-applications-for-ground-penetrating-radar-gpr/](https://geotechru.com/archaeology-applications-for-ground-penetrating-radar-gpr/)
