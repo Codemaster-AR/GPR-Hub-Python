@@ -15,8 +15,8 @@
 ### Team page: 
 [https://github.com/Codemaster-AR/mystery-miners](https://github.com/Codemaster-AR/mystery-miners)
 
-### Python website:
-
+### Python edition website (download, links):
+[https://codemaster-ar.github.io/GPR-Hub-Python/](https://codemaster-ar.github.io/GPR-Hub-Python/)
 
 ### Home page:
 [https://codemaster-ar.github.io/GPR-Hub/](https://codemaster-ar.github.io/GPR-Hub/)
