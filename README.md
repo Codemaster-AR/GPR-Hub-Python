@@ -23,3 +23,6 @@
 
 ### Contact:
 Contact codemaster.ar@gmail.com for more details
+
+### Homebrew link:
+[https://github.com/Codemaster-AR/gpr-hub-cli](https://github.com/Codemaster-AR/gpr-hub-cli)
