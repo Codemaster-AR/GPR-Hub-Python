@@ -2,6 +2,13 @@
 -----
 
 # GPR\-Hub\-Python
+
+
+### Recommended installation:
+Homebrew: [https://github.com/Codemaster-AR/gpr-hub-cli](https://github.com/Codemaster-AR/gpr-hub-cli)
+
+### Other way (unrecommended)
+[readme][readme]
 ### Team page: 
 [https://github.com/Codemaster-AR/mystery-miners](https://github.com/Codemaster-AR/mystery-miners)
 
